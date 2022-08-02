@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_07_25_154645) do
+ActiveRecord::Schema.define(version: 2022_07_25_170704) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -23,6 +23,27 @@ ActiveRecord::Schema.define(version: 2022_07_25_154645) do
     t.index ["supermarket_id"], name: "index_customers_on_supermarket_id"
   end
 
+  create_table "departments", force: :cascade do |t|
+    t.string "name"
+    t.string "floor"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "employee_tickets", force: :cascade do |t|
+    t.integer "employee_id"
+    t.integer "ticket_id"
+  end
+
+  create_table "employees", force: :cascade do |t|
+    t.string "name"
+    t.integer "level"
+    t.bigint "department_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["department_id"], name: "index_employees_on_department_id"
+  end
+
   create_table "supermarkets", force: :cascade do |t|
     t.string "name"
     t.string "location"
@@ -30,5 +51,11 @@ ActiveRecord::Schema.define(version: 2022_07_25_154645) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "tickets", force: :cascade do |t|
+    t.string "subject"
+    t.integer "age"
+  end
+
   add_foreign_key "customers", "supermarkets"
+  add_foreign_key "employees", "departments"
 end
